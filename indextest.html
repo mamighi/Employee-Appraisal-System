@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Futsal Court</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>Welcome To Futsal Court Management System</h1>
+					</header>
+					<button id="Login" class="button big scrolly">Login</button>
+					<button id="Register" class="button big scrolly">Register</button>
+				</div>
+			</section>
+
+		<!-- Main -->
+
+		
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+	<div id="Login_Mod" class="modal">
+	  <!-- Modal content -->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <span class="close">&times;</span>
+			  <h2>LOGIN</h2>
+			</div>
+			<div class="modal-body">
+				</br>
+				<input class="alt" type="radio" id="priority-normal" name="priority" checked>
+				<label for="priority-normal">Staff</label>
+				<input class="alt" type="radio" id="priority-high" name="priority">
+				<label for="priority-high">Student</label>
+			  <input type="text" name="userNameL" id="userNameL" value="" placeholder="Username">
+			  </br>
+			  <input type="password" name="passwordL" id="passwordL" value="" placeholder="Password">
+			  </br>
+			  <button id="Logins" name="Logins" class="button big scrolly" value="RUN" style="width:100%">Sign In</button>
+			  </br>
+			  </br>
+			</div>
+	
+		  </div>
+	
+	</div>
+		<div id="Reg_mod" class="modal">
+		
+
+	  <!-- Modal content -->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <span class="close">&times;</span>
+			  <h2>Student Feedback</h2>
+			</div>
+			<div class="modal-body">
+				</br>
+				   
+				<div id="BO">
+					<select name="State" id="state">
+					<option value="">- Department -</option>
+					<option value="Admin">Admin</option>
+					<option value="Student Services">Student Services</option>
+					<option value="Immigration">Immigration</option>
+					<option value="Accomodation">Accomodation</option>
+					<option value="Academic">Academic</option>
+					</select>
+					</br>
+						<div class="6u 12u$(xsmall)">
+						  <h5>Feedback:</h5>  
+						<textarea name='commentone' id='commentone' style="width:400px;height:200px"></textarea>
+						</div>
+				</div>
+			      </br>
+			  </br>
+				<button id="signUp" class="button big scrolly" style="width:100%">Submit</button>
+			  </br>
+			  </br>
+			</div>
+	
+		  </div>
+	</div>
+	<script>
+	var rBo=document.getElementById('priority-normal');
+	var rFU=document.getElementById('priority-high');
+	
+	
+	// Get the modal
+	var modal = document.getElementById('Login_Mod');
+	var regMod=document.getElementById('Reg_mod');
+	var rejMod=document.getElementById('Rej_mod');
+	// Get the button that opens the modal
+	var btn = document.getElementById("Login");
+	var regBtn=document.getElementById("Register");
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+		modal.style.display = "block";
+	}
+	regBtn.onclick=function(){
+		regMod.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+		regMod.style.display = "none";
+		rejMod.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal || event.target == regMod) {
+			modal.style.display = "none";
+			regMod.style.display = "none";
+		}
+	}
+	document.getElementById("Logins").onclick=function(){
+		$.ajax({
+				type:"post",
+				url:"login.php",
+				data: 
+				{  
+				   'action' :'login',
+				   'username' : $('#userNameL').val(),
+				   'pass' :$('#passwordL').val(),
+				},
+				cache:false,
+				success: function (html) 
+				{
+					
+				   if(html.includes("admin"))
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   window.location.href = "adminHome.html"; 
+				   }
+				   else if(html.includes("accept"))
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   window.location.href = "ManageCourts.html";
+				   }
+				   else if(html.includes("pending"))
+				   {
+					   alert("Your Account Status is Still Pending");
+				   }
+				   else if(html.includes("reject"))
+				   {
+						alert("Your Account Has Been Rejected By Admin");
+				   }
+				   else if(html.includes("fu"))
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   window.location.href = "bookcourt.html";
+				   }
+				}
+				});
+	}
+	document.getElementById("signUp").onclick=function(){
+		if(rFU.checked)
+		{
+			var name=document.getElementById("fnameFP").value;
+			var email=document.getElementById("emailFP").value;
+			var con=document.getElementById("con").value;
+			var pasFP=document.getElementById("pasFP").value;
+			if(name.length<1 || email.length<1 || con.length<1 || pasFP.length<1)
+			{
+				alert("Please Fill ALl The Field");
+				return;
+			}
+			else
+			{
+				$.ajax({
+				type:"post",
+				url:"login.php",
+				data: 
+				{  
+				   'action' :'signup',
+				   'username' : email,
+				   'pass' :pasFP,
+				   'name' : name,
+				   'con' : con,
+				   'ut' : 'fu'
+				},
+				cache:false,
+				success: function (html) 
+				{
+					alert("You registred successfully.");
+				}
+				});
+			}
+			
+		}
+		else
+		{
+			var name=document.getElementById("fname").value;
+			var fcname=document.getElementById("fcourt").value;
+			var state=document.getElementById("state").value;
+			var email=document.getElementById("email").value;
+			var pass=document.getElementById("pas").value;
+			if(name.length<1 || fcname.length<1 || state.length<1 || email.length<1 || pass.length<1)
+			{
+				alert("Please Fill All The Field");
+				return;
+			}
+			else
+			{
+				$.ajax({
+				type:"post",
+				url:"login.php",
+				data: 
+				{  
+				   'action' :'signup',
+				   'username' : email,
+				   'pass' :pass,
+				   'name' : name,
+				   'state' : state,
+				   'fcname' :fcname,
+				   'ut' : 'bo'
+				},
+				cache:false,
+				success: function (html) 
+				{
+					alert("You registred successfully.");
+				}
+				});
+			}
+		}
+	}
+	
+		
+	</script>
+</html>

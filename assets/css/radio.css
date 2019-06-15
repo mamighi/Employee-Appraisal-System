@@ -1,0 +1,78 @@
+input[type=radio]{display:none;}
+input[type=checkbox]{visibility: hidden;}
+
+input[type=radio] + label.btn{ 
+padding: 5px 10px;
+margin: 5px 10px;
+display: inline-block;
+text-transform: uppercase;
+font-weight: 700;
+outline: none;
+position: relative;
+-webkit-transition: all 0.3s;
+-moz-transition: all 0.3s;
+transition: all 0.3s;
+background: #cb4e4e;
+color: #fff;
+box-shadow: 0 6px #ab3c3c;
+-webkit-transition: none;
+-moz-transition: none;
+transition: none;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+input[type=checkbox] + label.btn{
+padding: 5px 10px;
+margin: 5px 10px;
+width:90px;
+display: inline-block;
+text-transform: uppercase;
+font-weight: 700;
+outline: none;
+position: relative;
+-webkit-transition: all 0.3s;
+-moz-transition: all 0.3s;
+transition: all 0.3s;
+background: gray;
+color: #fff;
+box-shadow: 0 6px black;
+-webkit-transition: none;
+-moz-transition: none;
+transition: none;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+input[type=checkbox]:disabled + label.btn{
+box-shadow: 0 0 #ab3c3c;
+background:red;
+top: 6px;
+}
+
+input[type=radio] + label.btn:hover{
+box-shadow: 0 4px #ab3c3c;
+top: 2px;
+}
+
+input[type=radio]:checked + label.btn{
+box-shadow: 0 0 #ab3c3c;
+
+top: 6px;
+}
+
+
+Checkboxes hover and checked CSS
+
+input[type=checkbox] + label.btn:hover{
+box-shadow: 0 4px #ab3c3c;
+top: 2px;
+}
+
+input[type=checkbox]:checked + label.btn{
+box-shadow: 0 0 #ab3c3c;
+background:green;
+top: 6px;
+}

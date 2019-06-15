@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Rewards Points</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href=""> <span>Rewards Points</span></a></div>
+				<a href="#menu">Menu</a>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="bookcourt.html">Book Court</a></li>
+					<li><a href="editFu.html">Profile</a></li>
+					<li><a href="historyfu.html">Book History</a></li>
+					<li><a href="viewpoint.html">View Points</a></li>
+					<li><a href="index.php">Sign Out</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Section -->
+					<section class="wrapper">
+						<div class="inner">
+							<header class="align-center">
+								<h1>Rewards Points</h1>
+							</header>
+									  
+									<table class="alt" id="table" name="table">
+										<thead>
+										<tr>
+										<th>Date</th>
+										<th>Points Rewards</th>
+										</tr>
+										</thead>
+												<tbody>
+													
+												</tbody>
+
+							</table>
+						
+					</section>
+					
+			</div>
+					
+
+			</div>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+	<script>
+	var username=sessionStorage.getItem("userName");
+	$.ajax({
+		type:"post",
+		url:"booking.php",
+		data: 
+		{  
+		   'action' :'getpoints'
+		},
+		cache:false,
+		success: function (html) 
+		{
+			var total=0;
+			var jsonData = JSON.parse(html);
+			var arrd=[];
+			var arrp=[];
+			for (x in jsonData) {
+				if(jsonData[x].username==username)
+				{
+					var ind=-1;
+					for(var i=0;i<arrd.length;i++)
+					{
+						if(jsonData[x].date==arrd[i])
+							ind=i;
+					}
+					if(ind==-1)
+					{
+						arrd.push(jsonData[x].date);
+						arrp.push(10);
+					}
+					else
+						arrp[ind]+=10;
+					/*var tabCont='<tr><td align="center">'+jsonData[x].date+'</td>';
+					tabCont+='<td align="center">+10</td><tr>';
+					$(table).find('tbody').append( tabCont );
+					total+=10;*/
+				}
+				
+			}
+			for(var i=0;i<arrd.length;i++)
+			{
+				var tabCont='<tr><td align="center">'+arrd[i]+'</td>';
+					tabCont+='<td align="center">+'+arrp[i]+'</td><tr>';
+					$(table).find('tbody').append( tabCont );
+					total+=arrp[i];
+			}
+			var tabCont='<tr><td align="center" style="color:red;font-weight: bold">TOTAL</td>';
+			tabCont+='<td align="center" style="color:red;font-weight: bold">'+total+'</td><tr>';
+			$(table).find('tbody').append( tabCont );
+					   
+		}
+	});
+	</script>
+</html>

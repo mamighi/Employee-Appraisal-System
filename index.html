@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>AHEIEPMSAS</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>AN AUTOMATED HIGHER EDUCATION INSTITUTE EMPLOYEE PERFORMANCE MANAGEMENT SYSTEM AIDED WITH 360-DEGREES APPRAISAL SYSTEM</h1>
+					</header>
+					<button id="Login" class="button big scrolly">Staff</button>
+					<button id="Register" class="button big scrolly">Student</button>
+				</div>
+			</section>
+
+		<!-- Main -->
+
+		
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+	<div id="Login_Mod" class="modal">
+	  <!-- Modal content -->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <span class="close">&times;</span>
+			  <h2>LOGIN</h2>
+			</div>
+			<div class="modal-body">
+				</br>
+			  <input type="text" name="userNameL" id="userNameL" value="" placeholder="Email">
+			  </br>
+			  <input type="password" name="passwordL" id="passwordL" value="" placeholder="Password">
+			  </br>
+			  <button id="Logins" name="Logins" class="button big scrolly" value="RUN" style="width:100%">Sign In</button>
+			  </br>
+			  </br>
+			</div>
+	
+		  </div>
+	
+	</div>
+		<div id="Reg_mod" class="modal">
+		
+
+	  <!-- Modal content -->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <span class="close">&times;</span>
+			  <h2>Student Login</h2>
+			</div>
+			<div class="modal-body">
+				</br>
+				 </br>
+			  <input type="text" name="sid" id="sid" value="" placeholder="StudentId">
+			  </br>
+			  <input type="password" name="spass" id="spass" value="" placeholder="Password">
+			  </br>
+			  <button id="slogin" name="slogin" class="button big scrolly" value="RUN" style="width:100%">Sign In</button>
+			      </br>
+			  </br>
+			  </br>
+			</div>
+	
+		  </div>
+	</div>
+	<script>
+	var rBo=document.getElementById('priority-normal');
+	var rFU=document.getElementById('priority-high');
+	
+
+	// Get the modal
+	var modal = document.getElementById('Login_Mod');
+	var regMod=document.getElementById('Reg_mod');
+	var rejMod=document.getElementById('Rej_mod');
+	// Get the button that opens the modal
+	var btn = document.getElementById("Login");
+	var regBtn=document.getElementById("Register");
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+		modal.style.display = "block";
+	}
+	regBtn.onclick=function(){
+		regMod.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+		regMod.style.display = "none";
+		rejMod.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal || event.target == regMod) {
+			modal.style.display = "none";
+			regMod.style.display = "none";
+		}
+	}
+	document.getElementById("Logins").onclick=function(){
+		$.ajax({
+				type:"post",
+				url:"login.php",
+				data: 
+				{  
+				   'action' :'login',
+				   'username' : $('#userNameL').val(),
+				   'pass' :$('#passwordL').val(),
+				},
+				cache:false,
+				success: function (html) 
+				{
+				     alert(html);
+				    
+				    var jsonData = JSON.parse(html);
+					//	alert(jsonData);
+        					
+					var id =jsonData.id;
+					var staffType=jsonData.staffType;
+					
+			        //	alert(jsonData.id);
+        			
+				   if(html.includes("Manager"))
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   sessionStorage.setItem("id", id);
+					   window.location.href = "managerHome.php"; 
+				   }
+				   else if(html.includes("wrong"))
+				   {
+						alert("The login credentials are incorrect. Please try again.");
+				   }
+				   else if(html.includes("HR"))
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   sessionStorage.setItem("id", id);
+					   window.location.href = "hrHome.php";
+				   }
+				   else
+				   {
+					   sessionStorage.setItem("userName", $('#userNameL').val());
+					   sessionStorage.setItem("id", id);
+					   window.location.href = "employHome.php"; 
+				   }
+				   
+				}
+				});
+	}
+	document.getElementById("slogin").onclick=function(){
+	    
+		var sid=document.getElementById("sid").value;
+			var spass=document.getElementById("spass").value;
+		   
+			if(sid.length< 1 || spass.length< 1)
+			{
+				alert("Please Fill ALl The Field");
+				return;
+			}
+			else
+			{
+			 
+				$.ajax({
+				type:"post",
+				url:"login.php",
+				data: 
+				{  
+				   'action' :'studentloginn',
+				   'sid' : sid,
+				   'pass' :spass,
+				},
+				cache:false,
+				success: function (html) 
+				{
+				  //  alert(html);
+				    
+				      if(html.includes("successfull")){
+					window.location.href = "studentHome.php";
+				      }else{
+				          alert("The user does not exist");
+				          //	window.location.href = "index.html";
+				      }
+				}
+				});
+			}
+			
+		
+	}
+	
+		
+	</script>
+</html>

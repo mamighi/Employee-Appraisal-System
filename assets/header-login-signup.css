@@ -1,0 +1,86 @@
+.header-login-signup .header-limiter {
+	max-width: 1200px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+/* Logo */
+
+.header-login-signup .header-limiter h1{
+	float: left;
+	font: normal 28px Cookie, Arial, Helvetica, sans-serif;
+	line-height: 40px;
+	margin: 0;
+}
+
+.header-login-signup .header-limiter h1 span {
+	color: #5383d3;
+}
+
+/* The navigation links */
+
+.header-login-signup .header-limiter a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+
+
+
+.header-login-signup .header-limiter nav a.selected {
+	color: #608bd2;
+}
+
+/* Login/Sign up buttons */
+
+
+
+/* The sign up button */
+.header-login-signup .header-limiter ul li a {
+	font-weight: bold;
+	background-color: #3a3c3e;
+	padding: 10px 15px ;
+	border-radius: 3px;
+        height:60px;
+}
+
+
+
+/* Making the header responsive */
+
+@media all and (max-width: 600px) {
+
+	.header-login-signup {
+		padding: 25px;
+		height: 85px;
+	}
+
+	.header-login-signup .header-limiter h1 {
+		float: none;
+		margin: -8px 0 2px;
+		text-align: center;
+		font-size: 24px;
+		line-height: 1;
+	}
+
+	.header-login-signup .header-limiter nav {
+		margin: 0;
+		float: none;
+	}
+
+	.header-login-signup .header-limiter nav li a {
+		font-size: 13px;
+	}
+
+	.header-login-signup .header-limiter ul {
+		display: none;
+	}
+
+}
+
+/* For the headers to look good, be sure to reset the margin and padding of the body */
+
+body {
+	margin:0;
+	padding:0;
+}
